@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" th:replace="admin/base::layout(~{::main})">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+</head>
+
+<body>
+	<main id="main">
+		<script th:inline="javascript">
+			var flag = [[${ msg }]];
+			window.onload = function () {
+				if (!flag) return;
+				bootstrapAlert(flag);
+			};
+		</script>
+		<div class="breadcrumbs d-flex align-items-center"
+			style="background-image: url('/assets/img/contact-header.jpg');">
+			<div class="container position-relative d-flex flex-column align-items-center">
+
+				<h2>Book Form</h2>
+				<ol>
+					<li>Admin</li>
+					<li><a th:href="@{/admin/dashboard}">Dashboard</a></li>
+					<li><a th:href="@{/admin/addBook}">Add Book</a></li>
+				</ol>
+
+			</div>
+		</div>
+
+		<section id="contact" class="contact">
+			<div class="container position-relative" data-aos="fade-up">
+
+				<div class="row gy-4 d-flex justify-content-end">
+
+					<div class="col-lg-5" data-aos="fade-up" data-aos-delay="100">
+
+						<div class="info-item d-flex">
+							<i class="bi bi-book flex-shrink-0"></i>
+							<div>
+								<h4>New Book:</h4>
+								<p>This will show immediately in the recent post section</p>
+							</div>
+						</div>
+
+						<div class="info-item d-flex">
+							<i class="bi bi-person-square flex-shrink-0"></i>
+							<div>
+								<h4>Immediate Availability:</h4>
+								<p>All the users can issue this book instantly</p>
+							</div>
+						</div>
+
+						<div class="info-item d-flex">
+							<i class="bi bi-fast-forward-fill flex-shrink-0"></i>
+							<div>
+								<h4>Dynamic Quantity:</h4>
+								<p>Quantity of the book will reflect in the dashboard</p>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="col-lg-6" data-aos="fade-up" data-aos-delay="250">
+
+						<form th:action="@{'/admin/postBook'}" method="post" role="form" th:object="${book}" enctype="multipart/form-data">
+							<div class="row">
+								<div class="col-md-6 form-group">
+									<label for="title">Book Title</label> <input type="text" name="title"
+										class="form-control" id="title" placeholder="Title" required>
+								</div>
+								<div class="col-md-6 form-group mt-3 mt-md-0">
+									<label for="qty">Book Quantity</label> <input type="text" pattern="[0-9]*$" 
+									title="Only numerical value accepted" class="form-control"
+										name="qty" id="qty" placeholder="Quantity" required>
+								</div>
+							</div>
+							<div class="form-group mt-3">
+								<label for="formFile" class="form-label">Book Image</label> <input
+									class="form-control" type="file" name="file" id="formFile" accept="image/png, image/jpg, image/jpeg" required>
+							</div>
+							<div class="row mt-3">
+								<div class="col-md-6 form-group">
+									<label for="author">Author</label> <input type="text" name="author.authorName"
+										class="form-control" id="author" placeholder="Author" required>
+								</div>
+								<div class="col-md-6 form-group mt-3 mt-md-0">
+								<label for="genre">Genre</label>
+									<input type="text" class="form-control" name="genre.genreName" id="genre"
+										placeholder="Genre" required>
+								</div>
+							</div>
+							<div class="form-group mt-3">
+								<label for="isbn">ISBN Code</label> <input type="text" pattern="[0-9]*$" 
+								title="Only numerical value accepted" class="form-control" name="isbn"
+									id="isbn" placeholder="ISBN" required>
+							</div>
+							<div class="form-group mt-3">
+								<label for="BookDescription">Description</label>
+								<textarea class="form-control" id="description" name="description" rows="3"></textarea>
+							</div>
+							<div class="form-group text-center mt-3">
+								<button class="btn btn-primary" type="submit">Add Book</button>
+							</div>
+						</form>
+
+					</div>
+
+				</div>
+
+			</div>
+		</section>
+
+	</main>
+</body>
+
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/assets/css/home.css" />
+    <title>NRI Library</title>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  </head>
+
+  <body class="home">
+    <div class="row">
+      <div class="content col col-lg-7">
+        <h2 data-aos="fade-up">NRI Library</h2>
+        <blockquote data-aos="fade-up" data-aos-delay="100">
+          <p>
+            Official library management website for NRI Fintech, India.
+            <br>
+            Browse all avaliable book in the office.
+          </p>
+        </blockquote>
+        <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
+          <button
+            type="button"
+            class="btn-get-started"
+            data-toggle="modal"
+            data-target="#form"
+          >
+            Login
+          </button>
+          <button
+            type="button"
+            class="btn-get-started"
+            data-toggle="modal"
+            data-target="#form1"
+          >
+            Signup
+          </button>
+        </div>
+      </div>
+      <div class="imgSec col col-lg-5">
+        <img src="/assets/img/home.gif" />
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="form"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <form th:action="@{/dologin}" class="login__form" method="post">
+            <div>
+              <h1 class="login__title"><span>Welcome</span> Back!</h1>
+              <p class="login__description">
+                Welcome! Please login to continue.
+              </p>
+              <div
+                class="alert alert-danger"
+                th:if="${login_msg}"
+                th:text="${login_msg}"
+              ></div>
+              <div
+                class="alert alert-success"
+                th:if="${verificationSuccess_msg}"
+                th:text="${verificationSuccess_msg}"
+              ></div>
+            </div>
+
+            <div>
+              <div class="login__inputs">
+                <div>
+                  <label for="login" class="login__label">Username</label>
+                  <input
+                    type="text"
+                    id="login"
+                    name="username"
+                    placeholder="Enter your username"
+                    required
+                    class="login__input"
+                  />
+                </div>
+
+                <div>
+                  <label for="password" class="login__label">Password</label>
+
+                  <div class="login__box">
+                    <input
+                      type="password"
+                      id="password"
+                      name="password"
+                      placeholder="Enter your password"
+                      required
+                      class="login__input"
+                    />
+                    <i class="ri-eye-off-line login__eye" id="input-icon"></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="login__check">
+                    <input type="checkbox" class="login__check-input">
+                    <label for="" class="login__check-label">Remember me</label>
+                </div> -->
+            </div>
+
+            <div>
+              <div class="login__buttons">
+                <button type="submit" name="submit" class="login__button">
+                  Log In
+                </button>
+              </div>
+              <div class="login__label">No account? <a th:href="@{/signupPage}">Create one</a></div>
+              <div class="login__label"><a th:href="@{/accountRecovery}">Forgot Password?</a></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="form1"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <form
+            th:action="@{/do_register}"
+            class="login__form"
+            method="post"
+            th:object="${user}"
+          >
+            <div>
+              <h1 class="login__title"><span>Sign</span>up</h1>
+              <p class="login__description">
+                Welcome! Please Register to Login.
+              </p>
+              <div
+                class="alert alert-danger"
+                th:if="${signup_msg}"
+                th:text="${signup_msg}"
+              ></div>
+              <div
+                class="alert alert-success"
+                th:if="${signupSuccess_msg}"
+                th:text="${signupSuccess_msg}"
+              ></div>
+            </div>
+
+            <div>
+              <div class="login__inputs">
+                <div>
+                  <label for="name_field" class="login__label" required>Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    id="name_field"
+                    placeholder="Enter your name"
+                    required
+                    class="login__input"
+                  />
+                </div>
+                <div>
+                  <label for="email_field" class="login__label">Email</label>
+                  <input
+                    pattern="[A-Za-z0-9._%+-]+@(nrifintech|trainee.nrifintech)\.com$" 
+                    title="Enter your company mail id"
+                    type="email"
+                    name="email"
+                    id="email_field"
+                    placeholder="Enter your email address"
+                    required
+                    class="login__input"
+                  />
+                </div>
+                <div>
+                  <label for="username_field" class="login__label"
+                    >Username</label>
+                  <input
+                    type="text"
+                    name="username"
+                    id="username_field"
+                    placeholder="Enter your username"
+                    required
+                    class="login__input"
+                    minlength="2"
+                    maxlength="10"
+                  />
+                </div>
+                <div>
+                  <label for="age_field" class="login__label">Age</label>
+                  <input
+                  pattern="[0-9]*$" 
+                  title="Enter a nuumber"
+                    type="text"
+                    name="age"
+                    id="age_field"
+                    placeholder="Enter your age"
+                    required
+                    class="login__input"
+                    minlength="2"
+                    maxlength="2"
+                  />
+                </div>
+                <!-- <div>
+                  <label for="role_field" class="login__label">Role</label>
+                  <input
+                    type="text"
+                    name="role"
+                    id="role_field"
+                    placeholder="Enter your role"
+                    required
+                    class="login__input"
+                  />
+                </div> -->
+                <div>
+                  <label for="password_field]" class="login__label"
+                    >Password</label
+                  >
+                  <div class="login__box">
+                    <input
+                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$" 
+                    title="Must be Minimum eight characters. At least one upper case, one lower case, one digit, and one special character."
+                      type="password"
+                      name="password"
+                      id="password_field"
+                      placeholder="Enter your password"
+                      required
+                      class="login__input"
+                    />
+                    <i class="ri-eye-off-line login__eye" id="input-icon"></i>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="login__check">
+              <input type="checkbox" class="login__check-input">
+              <label for="" class="login__check-label">Remember me</label>
+          </div> -->
+            </div>
+
+            <div>
+              <div class="login__buttons">
+                <button class="login__button">Submit</button>
+              </div>
+            
+            <div class="login__label">Already have an account? <a th:href="@{/loginPage}">Login</a></div>
+            <div class="login__label"><a th:href="@{/accountRecovery}">Forgot Password?</a></div>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script>
+      AOS.init();
+    </script>
+    <script>
+      $(document).ready(function () {
+        if (window.location.href.indexOf("#login") != -1) {
+          $("#form").modal("show");
+        }
+      });
+
+      $(document).ready(function () {
+        if (window.location.href.indexOf("#signup") != -1) {
+          $("#form1").modal("show");
+        }
+      });
+    </script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

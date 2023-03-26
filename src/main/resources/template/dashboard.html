@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" th:replace="base::layout(~{::main})">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+</head>
+
+<body>
+	<main id="main">
+		<div class="breadcrumbs d-flex align-items-center"
+			style="background-image: url('/assets/img/blog-header.jpg');">
+			<div class="container position-relative d-flex flex-column align-items-center">
+
+				<h2>Dashboard</h2>
+				<ol>
+					<li><span th:text="${user.name}"></span></li>
+					<li><a th:href="@{/user/dashboard}">Dashboard</a></li>
+				</ol>
+
+			</div>
+		</div>
+		<section id="blog" class="blog">
+			<div class="container" data-aos="fade-up">
+				<div class="row g-5">
+					<div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
+						<div class="row gy-5 posts-list">
+							<div class="col-lg-6" th:each="book,iter: ${books}">
+								<article class="d-flex flex-column">
+									<div class="post-img">
+										<img th:src="'data:'+${book.databaseFile.fileType}+';base64,'+${images.get(iter.index)}" alt="IMG" class="img-fluid">
+									</div>
+									<h2 class="title">
+										<a href="#" th:text="${book.title}"></a>
+									</h2>
+
+									<div class="meta-top">
+										<ul>
+											<li class="d-flex align-items-center"><i
+												class="bi bi-person"></i> <a href="#"
+												th:text="${book.author.authorName}"></a></li>
+											<li class="d-flex align-items-center"><i
+												class="bi bi-film"></i> <a href="#"
+												th:text="${book.genre.genreName}"></a></li>
+											<li class="d-flex align-items-center"><i
+												class="bi bi-book"></i> <a href="#" th:text="${book.qty}"></a></li>
+										</ul>
+									</div>
+
+									<div class="content">
+										<p th:text="${book.description}"></p>
+									</div>
+
+									<div class="read-more mt-auto align-self-begin">
+										<a th:href="@{'/user/createIssue/'+${book.bookId}}"><i
+												class="btn btn-primary">Issue</i></a>
+									</div>
+								</article>
+							</div>
+							
+						</div>
+					</div>
+
+					<div class="col-lg-4" data-aos="fade-up" data-aos-delay="400">
+
+						<div class="sidebar ps-lg-4">
+
+							<div class="sidebar-item">
+								<h3 class="sidebar-title">Search</h3>
+								<form th:action="@{'/user/dashboard/performSearch'}" class="mt-3" method="post">
+									<label for="search"></label>
+									<select name="drop" id="autoSearch" th:onchange="autoComplete([[${allBooks}]])">
+										<option  selected th:value="title">Title</option>
+										<option th:value="author">Author</option>
+										<option th:value="genre">Genre</option>
+									</select>
+									<div class="search-form">
+										<input type="text" id="myInput" name="searchText">
+										<button type="submit">
+											<i class="bi bi-search"></i>
+										</button>
+									</div>
+								</form>
+							</div>
+							<div class="sidebar-item tags">
+								<h3 class="sidebar-title">Genres</h3>
+								<ul class="mt-3"  >
+									<li th:each="genre : ${genres}"><a th:href="@{'/user/getBookByGenre/'+${genre}}"
+									th:text="${genre}"></a></li>
+								</ul>
+							  </div><!-- End sidebar tags-->
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<script th:inline="javascript">
+			window.addEventListener("load", function (event) {
+				var flag = [[${ msg }]];
+				if (!flag) return;
+				bootstrapAlert(flag);
+			});
+
+			window.addEventListener("load", function () {
+				autoComplete([[${allBooks}]]);
+			});
+		</script>
+	</main>
+</body>
+
+</html>

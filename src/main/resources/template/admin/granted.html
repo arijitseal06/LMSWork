@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" th:replace="admin/base::layout(~{::main})">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+</head>
+
+<body>
+	<main id="main">
+		<script th:inline="javascript">
+			window.onload = function () {
+				searchBasedOnUser([[${ issues }]])
+			};
+		</script>
+		<div class="breadcrumbs d-flex align-items-center"
+			style="background-image: url('/assets/img/blog-header.jpg');">
+			<div class="container position-relative d-flex flex-column align-items-center">
+
+				<h2>Granted</h2>
+				<ol>
+					<li>Admin</li>
+					<li><a th:href="@{/admin/dashboard}">Dashboard</a></li>
+					<li><a th:href="@{/admin/granted}">Granted</a></li>
+				</ol>
+
+			</div>
+		</div>
+		<section id="blog" class="blog">
+			<h5 id="searchText">Search based on username</h5>
+			<div class="container" data-aos="fade-up">
+
+				<div class="row g-5">
+					<div class="col-lg-4 mx-auto" data-aos="fade-up" data-aos-delay="200">
+						<div class="search-user">
+							<form th:action="@{'/admin/granted/issueUserSearch'}" class="mt-3" method="post">
+								<input type="text" id="myInput" name="searchText">
+								<button type="submit">
+									<i class="bi bi-search"></i>
+								</button>
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
+
+
+				</div>
+
+			</div>
+		</section>
+
+		<div class="container pb-5" data-aos="fade-up" data-aos-delay="200">
+			<div class="row">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th scope="col"></th>
+							<th scope="col">TITLE</th>
+							<th scope="col">USERNAME</th>
+							<th scope="col">AUTHOR</th>
+							<th scope="col">DATE</th>
+							<th scope="col">STATUS</th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="issue,iter: ${issues}">
+
+							<td scope="row" th:text="${iter.count}">
+								</th>
+							<td scope="row" th:text="${issue.book.title}">
+								</th>
+							<td scope="row" th:text="${issue.user.username}">
+								</th>
+							<td scope="col" th:text="${issue.book.author.authorName}"></td>
+							<td scope="col" th:text="${issue.issueDate}"></td>
+							<td scope="col" th:text="'Granted'"></td>
+							<th scope="col"><a href="#" th:href="'/admin/grantedToIssue/'+${issue.issueId}"><button
+										class="btn btn-secondary">Issue</button></a></th>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+	</main>
+</body>
+
+</html>

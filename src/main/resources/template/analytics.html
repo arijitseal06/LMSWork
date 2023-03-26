@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" th:replace="base::layout(~{::main})">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+</head>
+
+<body>
+    <main>
+		<div class="breadcrumbs d-flex align-items-center"
+			style="background-image: url('/assets/img/blog-header.jpg');">
+			<div class="container position-relative d-flex flex-column align-items-center">
+				<h2>Granted</h2>
+				<ol>
+					<li><span th:text="${user.name}"></span></li>
+					<li><a th:href="@{/user/dashboard}">Dashboard</a></li>
+					<li><a th:href="@{/user/analytics}">Analytics</a></li>
+				</ol>
+			</div>
+		</div>
+		<div class="container pb-5 mt-5" data-aos="fade-up" data-aos-delay="200">
+			<div class="row">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th scope="col" style="width: 50%">Report</th>
+							<th scope="col" style="width: 50%"></th>
+						</tr>
+					</thead>
+					<tbody>
+                        <tr>
+                            <td scope="col">All books</td>
+                            <td scope="col"  class="text-right"><a href="#" th:href="@{/book/generatebooksreport}"><button
+                                class="btn btn-secondary">Download</button></a></td>
+                        </tr>
+                        <tr>
+                            <td scope="col">Avaliable books</td>
+                            <td scope="col"  class="text-right"><a href="#" th:href="@{/book/generateavailablebooksreport}"><button
+                                class="btn btn-secondary">Download</button></a></td>
+                        </tr>
+                        <tr>
+                            <td scope="col">Issue</td>
+                            <td scope="col"  class="text-right"><a href="#" th:href="@{'/issue/generateissuesreportbyuserid/'+${user.id}}"><button
+                                class="btn btn-secondary">Download</button></a></td>
+                        </tr>
+					</tbody>
+				</table>
+			</div>
+            </div>
+	</main>
+</body>
+
+</html>
