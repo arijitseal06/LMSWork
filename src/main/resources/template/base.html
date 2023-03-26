@@ -43,6 +43,7 @@
             <nav id="navbar" class="navbar">
                 <ul>
                     <li><a th:href="@{/user/dashboard}" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/user/dashboard') ? 'active':''}">Dashboard</a></li>
+                    <li><a th:href="@{/user/unavailable}" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/user/unavailable') ? 'active':''}">Unavailable</a></li>
                     <li><a th:href="@{/user/granted}" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/user/granted') ? 'active':''}">Granted</a></li>
                     <li><a th:href="@{/user/return}" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/user/return') ? 'active':''}">Return</a></li>
                     <li><a th:href="@{/user/issue}" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/user/issue') ? 'active':''}">Issues</a></li>

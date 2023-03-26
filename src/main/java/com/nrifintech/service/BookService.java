@@ -3,6 +3,7 @@ package com.nrifintech.service;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -22,6 +23,7 @@ import com.nrifintech.exception.ResourceNotFoundException;
 import com.nrifintech.model.Author;
 import com.nrifintech.model.Book;
 import com.nrifintech.model.Genre;
+import com.nrifintech.model.Issue;
 import com.nrifintech.repository.BookRepository;
 
 @Service
@@ -141,6 +143,12 @@ public class BookService
 		return ResponseEntity.ok().body(bl);
 	}
 	
+	
+	public Boolean getIssuesPerBook(int bookId) {
+		Book book = bookrepo.findById(bookId).get();
+		return book.getIssues().stream().anyMatch(issue -> issue.getStatus().equals("Issued"));
+	}
+	
 	public ResponseEntity<Book> getBookByIsbn(long isbn) throws ResourceNotFoundException
 	{
 		for(Book book:bookrepo.findAll())
@@ -165,6 +173,19 @@ public class BookService
 			}
 		}
 		return ResponseEntity.ok().body(availableBooks);
+	}
+	
+	public ResponseEntity<List<Book>> getNonAvailableBooks()
+	{
+		List<Book> nonAvailableBooks=new ArrayList<Book>();
+		for(Book b:bookrepo.findAll())
+		{
+			if(b.getQty()==0)
+			{
+				nonAvailableBooks.add(b);
+			}
+		}
+		return ResponseEntity.ok().body(nonAvailableBooks);
 	}
 	
 	public void createSheet()

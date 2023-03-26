@@ -3,6 +3,8 @@ package com.nrifintech.model;
 
 import java.sql.Clob;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.sql.rowset.serial.SerialException;
@@ -59,6 +62,9 @@ public class Book
 	@JoinColumn(name = "genreId")
 	private Genre genre;
 	
+	@OneToMany(mappedBy = "book",fetch=FetchType.EAGER)
+	private List<Issue> issues=new ArrayList<Issue>();
+	
 	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinColumn(name="fileId")
 	private DatabaseFile databaseFile;
@@ -77,6 +83,20 @@ public class Book
 		this.genre = genre;
 		this.databaseFile = databaseFile;
 	}
+	
+	
+
+	public List<Issue> getIssues() {
+		return issues;
+	}
+
+
+
+	public void setIssues(List<Issue> issues) {
+		this.issues = issues;
+	}
+
+
 
 	public DatabaseFile getDatabaseFile() {
 		return databaseFile;
@@ -240,7 +260,7 @@ public class Book
 	@Override
 	public String toString() {
 		return "Book [bookId=" + bookId + ", title=" + title + ", qty=" + qty + ", date=" + date + ", url=" + String.valueOf(url)
-				+ ", ISBN=" + isbn + ", description=" + description + ", author=" + author + ", genre=" + genre + "]";
+				+ ", ISBN=" + isbn + ", description=" + description + "]";
 	}
 
 	

@@ -82,6 +82,11 @@ public class IssueService
 		issueRepo.save(issue);
 		return ResponseEntity.ok().body(issue);
 	}
+	
+	public ResponseEntity<Issue> getEarliestAvailableIssuePerBook(int bookId) throws ResourceNotFoundException {
+		Issue issue = issueRepo.findEarliestAvailableDateOfABook(bookId);
+		return ResponseEntity.ok().body(issue);
+	}
 
 	// delete a issue
 	public ResponseEntity<Issue> deleteIssue(int issueId) throws ResourceNotFoundException {

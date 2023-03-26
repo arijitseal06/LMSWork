@@ -27,4 +27,8 @@ public interface IssueRepository extends CrudRepository<Issue,Integer>{
 	
 	@Query(value = "select gi.genreId, gi.genreName, count(*) as totalIssue from (select g.genre_id as genreId, g.genre_name as genreName, i.issue_id as issueId from genre g, book b, issue i where i.book_id=b.book_id and b.genre_id=g.genre_id) as gi group by gi.genreId order by count(*) desc", nativeQuery = true)
 	public List<IssuePerGenre> countTotalIssuePerGenre();
+	
+	@Query(value = "select * from issue where status in ( \"Granted\",\"Issued\") and book_id =:id order by issue_date Limit 1;", nativeQuery = true)
+	public Issue findEarliestAvailableDateOfABook(@Param("id") int id);
+	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nrifintech.exception.ResourceNotFoundException;
 import com.nrifintech.model.Book;
+import com.nrifintech.model.Issue;
 import com.nrifintech.service.BookService;
 
 @RestController
@@ -27,6 +29,12 @@ public class BookController
 	{
 		return bs.addBook(book);
 	}
+	
+//	@GetMapping("issueperbook/{bookId}")
+//	public ResponseEntity<List<Issue>> getIssuePerBook(@PathVariable int bookId)
+//	{
+//		return bs.getIssuesPerBook(bookId);
+//	}
 	
 	
 	@RequestMapping(method=RequestMethod.PUT,value="/updatebook/{bookId}")

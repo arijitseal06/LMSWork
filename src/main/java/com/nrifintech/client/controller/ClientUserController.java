@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -79,6 +80,38 @@ public class ClientUserController {
 		model.addAttribute("user", user);
 		return "dashboard";
 	}
+	
+	@GetMapping("/unavailable")
+	public String unavailable(Model model, Principal principal) throws ResourceNotFoundException {
+		List<Book> books = bookService.getAllBooks();
+		List<Book> tempBooks = new ArrayList<>();
+		List<Book> allBooks = bookService.getAvailableBooks().getBody();
+		List<String> encodedImages = new ArrayList<>();
+		for (Book book : books) {
+			if (book.getQty() == 0) {
+				encodedImages.add(Base64.getEncoder().encodeToString(book.getDatabaseFile().getData()));
+				tempBooks.add(book);
+			}
+		}
+		books = tempBooks;
+		Collections.reverse(books);
+		Collections.reverse(encodedImages);
+		TreeSet<String> genres = new TreeSet<>();
+		for (Book book : allBooks) {
+			genres.add(book.getGenre().getGenreName());
+			if (genres.size() == 10) {
+				break;
+			}
+		}
+		model.addAttribute("images", encodedImages);
+		model.addAttribute("books", books);
+		model.addAttribute("genres", genres);
+		model.addAttribute("allBooks", allBooks);
+		User user = userService.getUserByusername(principal.getName()).getBody();
+		model.addAttribute("user", user);
+		return "unavailable";
+	}
+	
 
 	@PostMapping("/dashboard/performSearch")
 	public String search(@RequestParam("drop") String dropdownSelect, @RequestParam("searchText") String textboxSelect,
